@@ -100,46 +100,57 @@
     &copy; 2025 ブローグ
   </footer>
 
-  <script>
-    const searchBox = document.getElementById("searchBox");
-    const resultsContainer = document.getElementById("results");
-    let posts = [];
+<script>
+  const searchBox = document.getElementById("searchBox");
+  const resultsContainer = document.getElementById("results");
+  let posts = [];
 
-    fetch("data/posts.json") // ← 相対パスで読み込み！
-      .then(res => res.json())
-      .then(data => posts = data);
+  fetch("data/posts.json")
+    .then(res => res.json())
+    .then(data => {
+      posts = data;
 
-    searchBox.addEventListener("input", () => {
-      const keyword = searchBox.value.trim().toLowerCase();
-      resultsContainer.innerHTML = "";
-
-      if (keyword.length === 0) return;
-
-      const filtered = posts.filter(post =>
-        post.title.toLowerCase().includes(keyword) ||
-        post.description.toLowerCase().includes(keyword) ||
-        (post.tags && post.tags.some(tag => tag.toLowerCase().includes(keyword)))
-      );
-
-      if (filtered.length === 0) {
-        resultsContainer.innerHTML = "<p>該当する記事が見つかりませんでした。</p>";
-        return;
+      // クエリから初期キーワードを取得して検索ボックスに反映
+      const params = new URLSearchParams(window.location.search);
+      const initialQuery = params.get("q");
+      if (initialQuery) {
+        searchBox.value = initialQuery;
+        searchBox.dispatchEvent(new Event("input"));
       }
-
-      filtered.forEach(post => {
-        const tagHTML = post.tags?.map(tag => `<span class="tag">#${tag}</span>`).join(" ") || "";
-        const div = document.createElement("div");
-        div.className = "result";
-        div.innerHTML = `
-          <h2><a href="${post.url}">${post.title}</a></h2>
-          <p>${post.description}</p>
-          <p><small>${post.date || ""}</small></p>
-          <div>${tagHTML}</div>
-        `;
-        resultsContainer.appendChild(div);
-      });
     });
-  </script>
+
+  searchBox.addEventListener("input", () => {
+    const keyword = searchBox.value.trim().toLowerCase();
+    resultsContainer.innerHTML = "";
+
+    if (keyword.length === 0) return;
+
+    const filtered = posts.filter(post =>
+      post.title.toLowerCase().includes(keyword) ||
+      post.description.toLowerCase().includes(keyword) ||
+      (post.tags && post.tags.some(tag => tag.toLowerCase().includes(keyword)))
+    );
+
+    if (filtered.length === 0) {
+      resultsContainer.innerHTML = "<p>該当する記事が見つかりませんでした。</p>";
+      return;
+    }
+
+    filtered.forEach(post => {
+      const tagHTML = post.tags?.map(tag => `<span class="tag">#${tag}</span>`).join(" ") || "";
+      const div = document.createElement("div");
+      div.className = "result";
+      div.innerHTML = `
+        <h2><a href="${post.url}">${post.title}</a></h2>
+        <p>${post.description}</p>
+        <p><small>${post.date || ""}</small></p>
+        <div>${tagHTML}</div>
+      `;
+      resultsContainer.appendChild(div);
+    });
+  });
+</script>
+
 </body>
 </html>
 
