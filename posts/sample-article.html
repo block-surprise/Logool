@@ -10,12 +10,21 @@
   <meta property="og:image" content="https://example.com/images/minecraft.jpg" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://example.com/posts/minecraft.html" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
       background: #f9f9f9;
       color: #333;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    a:hover {
+      color: #3498db;
+      text-decoration: underline;
     }
     header {
       background: #2c3e50;
@@ -29,6 +38,8 @@
     .site-title {
       font-size: 1.5rem;
       font-weight: bold;
+      color: white;
+      text-decoration: none;
     }
     nav a {
       color: white;
@@ -36,9 +47,20 @@
       text-decoration: none;
     }
     main {
-      max-width: 800px;
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 1200px;
       margin: 2rem auto;
       padding: 0 1rem;
+      gap: 2rem;
+    }
+    .content {
+      flex: 3;
+      min-width: 0;
+    }
+    .sidebar {
+      flex: 1;
+      min-width: 250px;
     }
     .breadcrumbs {
       font-size: 0.85rem;
@@ -47,7 +69,6 @@
     }
     .breadcrumbs a {
       color: #3498db;
-      text-decoration: none;
     }
     article img {
       width: 100%;
@@ -70,7 +91,6 @@
       margin-right: 0.3rem;
       font-size: 0.75rem;
       border-radius: 4px;
-      text-decoration: none;
     }
     .toc {
       background: #f0f0f0;
@@ -85,11 +105,13 @@
     .toc ul {
       padding-left: 1rem;
     }
+    .share-buttons {
+      margin-top: 2rem;
+    }
     .share-buttons a {
       display: inline-block;
-      margin-right: 0.5rem;
-      text-decoration: none;
-      font-size: 0.9rem;
+      margin-right: 0.8rem;
+      font-size: 1.2rem;
       color: #3498db;
     }
     .author-box {
@@ -111,24 +133,43 @@
     .related-posts li {
       margin-bottom: 0.5rem;
     }
+    .sidebar section {
+      background: white;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .sidebar h2 {
+      font-size: 1.1rem;
+      margin-top: 0;
+    }
+    .sidebar ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .sidebar li {
+      margin-bottom: 0.5rem;
+    }
+    .sidebar a {
+      color: #3498db;
+    }
     footer {
       text-align: center;
       font-size: 0.8rem;
       color: #aaa;
       margin: 4rem 0 2rem;
     }
-    .site-title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: white;
-  text-decoration: none;
-}
-
+    @media (max-width: 768px) {
+      main {
+        flex-direction: column;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
-   <a href="../index.html" class="site-title">ブローグ</a>
+    <a href="../index.html" class="site-title">ブローグ</a>
     <nav>
       <a href="../index.html">ホーム</a>
       <a href="../tags.html">タグ</a>
@@ -136,60 +177,91 @@
   </header>
 
   <main>
-    <div class="breadcrumbs">
-      <a href="../index.html">ホーム</a> ＞ ネザーでネザライト探し
-    </div>
-
-    <article>
-      <h1>ネザーでネザライト探し</h1>
-      <div class="meta">公開日：2025年12月9日 ｜ 更新日：2025年12月10日</div>
-
-      <img src="../images/minecraft.jpg" alt="ネザーの風景" />
-
-      <div class="tags">
-        <a href="../tags/minecraft.html" class="tag">#マイクラ</a>
-        <a href="../tags/adventure.html" class="tag">#冒険</a>
+    <div class="content">
+      <div class="breadcrumbs">
+        <a href="../index.html">ホーム</a> ＞ ネザーでネザライト探し
       </div>
 
-      <section class="toc">
-        <h2>目次</h2>
+      <article>
+        <h1>ネザーでネザライト探し</h1>
+        <div class="meta">公開日：2025年12月9日 ｜ 更新日：2025年12月10日</div>
+
+        <img src="../images/minecraft.jpg" alt="ネザーの風景" />
+
+        <div class="tags">
+          <a href="../tags/minecraft.html" class="tag">#マイクラ</a>
+          <a href="../tags/adventure.html" class="tag">#冒険</a>
+        </div>
+
+        <section class="toc">
+          <h2>目次</h2>
+          <ul>
+            <li><a href="#start">ネザーに突入！</a></li>
+            <li><a href="#find">ネザライトの探し方</a></li>
+            <li><a href="#tips">装備と注意点</a></li>
+          </ul>
+        </section>
+
+        <h2 id="start">ネザーに突入！</h2>
+        <p>今日はネザーに行って、ネザライトを探してきたよ。まずはポータルを作って、装備を整えて出発！</p>
+
+        <h2 id="find">ネザライトの探し方</h2>
+        <p>Y座標15あたりを掘るのがコツ。TNTやベッド爆破を使うと効率的だけど、火に注意！</p>
+
+        <h2 id="tips">装備と注意点</h2>
+        <p>火炎耐性のポーションは必須！ピグリンに金装備を見せるのも忘れずに。</p>
+
+        <div class="share-buttons">
+          <p><strong>この記事をシェア：</strong></p>
+          <a href="https://twitter.com/intent/tweet?text=ネザーでネザライト探し&url=https://example.com/posts/minecraft.html" target="_blank" title="Twitterでシェア">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https://example.com/posts/minecraft.html" target="_blank" title="Facebookでシェア">
+            <i class="fab fa-facebook"></i>
+          </a>
+          <a href="https://social-plugins.line.me/lineit/share?url=https://example.com/posts/minecraft.html" target="_blank" title="LINEでシェア">
+            <i class="fab fa-line"></i>
+          </a>
+        </div>
+
+        <div class="author-box">
+          <strong>この記事を書いた人：</strong>
+          <p>ブローグ管理人。マイクラとガジェットが好きな水の精霊です🫧</p>
+        </div>
+      </article>
+
+      <section class="related-posts">
+        <h3>関連記事</h3>
         <ul>
-          <li><a href="#start">ネザーに突入！</a></li>
-          <li><a href="#find">ネザライトの探し方</a></li>
-          <li><a href="#tips">装備と注意点</a></li>
+          <li><a href="nether-tips.html">ネザーで生き残るための5つのコツ</a></li>
+          <li><a href="auto-farm.html">マイクラで自動農場を作った話</a></li>
+          <li><a href="piglin-trade.html">ピグリン交易で手に入るアイテムまとめ</a></li>
         </ul>
       </section>
+    </div>
 
-      <h2 id="start">ネザーに突入！</h2>
-      <p>今日はネザーに行って、ネザライトを探してきたよ。まずはポータルを作って、装備を整えて出発！</p>
-
-      <h2 id="find">ネザライトの探し方</h2>
-      <p>Y座標15あたりを掘るのがコツ。TNTやベッド爆破を使うと効率的だけど、火に注意！</p>
-
-      <h2 id="tips">装備と注意点</h2>
-      <p>火炎耐性のポーションは必須！ピグリンに金装備を見せるのも忘れずに。</p>
-
-      <div class="share-buttons">
-        <p><strong>この記事をシェア：</strong></p>
-        <a href="https://twitter.com/intent/tweet?text=ネザーでネザライト探し&url=https://example.com/posts/minecraft.html" target="_blank">Twitter</a>
-        <a href="https://www.facebook.com/sharer/sharer.php?u=https://example.com/posts/minecraft.html" target="_blank">Facebook</a>
-        <a href="https://social-plugins.line.me/lineit/share?url=https://example.com/posts/minecraft.html" target="_blank">LINE</a>
-      </div>
-
-      <div class="author-box">
-        <strong>この記事を書いた人：</strong>
-        <p>ブローグ管理人。マイクラとガジェットが好きな水の精霊です🫧</p>
-      </div>
-    </article>
-
-    <section class="related-posts">
-      <h3>関連記事</h3>
-      <ul>
-        <li><a href="nether-tips.html">ネザーで生き残るための5つのコツ</a></li>
-        <li><a href="auto-farm.html">マイクラで自動農場を作った話</a></li>
-        <li><a href="piglin-trade.html">ピグリン交易で手に入るアイテムまとめ</a></li>
-      </ul>
-    </section>
+    <aside class="sidebar">
+      <section>
+        <h2>プロフィール</h2>
+        <p>こんにちは、ブローグ管理人です。マイクラと詩的なUIが好きな水の精霊🫧</p>
+      </section>
+      <section>
+        <h2>最近の投稿</h2>
+        <ul>
+          <li><a href="google-search.html">Google検索の裏側</a></li>
+          <li><a href="auto-farm.html">マイクラで自動農場を作った話</a></li>
+          <li><a href="cafe.html">お気に入りのカフェ紹介</a></li>
+        </ul>
+      </section>
+      <section>
+        <h2>人気タグ</h2>
+        <ul>
+          <li><a href="../tags/minecraft.html">#マイクラ</a></li>
+          <li><a href="../tags/tech.html">#テック</a></li>
+          <li><a href="../tags/life.html">#日常</a></li>
+        </ul>
+      </section>
+    </aside>
   </main>
 
   <footer>
