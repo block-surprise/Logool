@@ -83,10 +83,10 @@
 </head>
 <body>
   <header>
-    <a href="/index.html" class="site-title">ブローグ</a>
+    <a href="index.html" class="site-title">ブローグ</a>
     <nav>
-      <a href="/index.html">ホーム</a>
-      <a href="/tags/">タグ</a>
+      <a href="index.html">ホーム</a>
+      <a href="tags/">タグ</a>
     </nav>
   </header>
 
@@ -105,7 +105,7 @@
     const resultsContainer = document.getElementById("results");
     let posts = [];
 
-    fetch("/data/posts.json")
+    fetch("data/posts.json") // ← 相対パスで読み込み！
       .then(res => res.json())
       .then(data => posts = data);
 
@@ -142,3 +142,4 @@
   </script>
 </body>
 </html>
+
