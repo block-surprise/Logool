@@ -154,7 +154,7 @@
       <a href="tags/">タグ</a>
       <a href="about">このブログについて</a>
       <span class="search-box">
-        <input type="text" placeholder="検索..." />
+        <input type="text" id="headerSearch" placeholder="検索..." />
       </span>
     </nav>
   </header>
@@ -206,6 +206,18 @@
   <footer>
     &copy; 2025 ブローグ
   </footer>
+
+  <script>
+    const headerSearch = document.getElementById("headerSearch");
+    headerSearch.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        const query = headerSearch.value.trim();
+        if (query) {
+          const encoded = encodeURIComponent(query);
+          window.location.href = `search.html?q=${encoded}`;
+        }
+      }
+    });
+  </script>
 </body>
 </html>
-
