@@ -97,80 +97,90 @@
   </div>
 
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-    import {
-      getAuth,
-      createUserWithEmailAndPassword,
-      GoogleAuthProvider,
-      signInWithPopup
-    } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-    import {
-      getFirestore,
-      doc,
-      setDoc
-    } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+import {
+  getFirestore,
+  doc,
+  setDoc
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDZwl7MJrNJD2qU7bkATpZ2DVt0cjLb07s",
-      authDomain: "blogue-9c04d.firebaseapp.com",
-      projectId: "blogue-9c04d",
-      storageBucket: "blogue-9c04d.firebasestorage.app",
-      messagingSenderId: "330012087470",
-      appId: "1:330012087470:web:afe058423a9bcf98bf493f"
-    };
+const firebaseConfig = {
+  apiKey: "AIzaSyDZwl7MJrNJD2qU7bkATpZ2DVt0cjLb07s",
+  authDomain: "blogue-9c04d.firebaseapp.com",
+  projectId: "blogue-9c04d",
+  storageBucket: "blogue-9c04d.firebasestorage.app",
+  messagingSenderId: "330012087470",
+  appId: "1:330012087470:web:afe058423a9bcf98bf493f"
+};
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-    // メールアドレスで登録
-    document.getElementById("signup-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const nickname = e.target.nickname.value;
-      const email = e.target.email.value;
-      const password = e.target.password.value;
-      const message = document.getElementById("message");
+// メールアドレスで登録
+document.getElementById("signup-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const nickname = e.target.nickname.value;
+  const email = e.target.email.value;
+  const password = e.target.password.value;
+  const message = document.getElementById("message");
 
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const uid = userCredential.user.uid;
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const uid = userCredential.user.uid;
 
-        await setDoc(doc(db, "users", uid), {
-          nickname: nickname,
-          createdAt: new Date().toISOString()
-        });
-
-        message.textContent = `登録が完了しました！ようこそ、${nickname}さん。`;
-        message.style.color = "green";
-        e.target.reset();
-      } catch (error) {
-        message.textContent = "エラー: " + error.message;
-        message.style.color = "crimson";
-      }
+    await setDoc(doc(db, "users", uid), {
+      nickname: nickname,
+      createdAt: new Date().toISOString()
     });
 
-    // Googleで登録
-    const provider = new GoogleAuthProvider();
-    document.getElementById("google-signin").addEventListener("click", async () => {
-      const message = document.getElementById("message");
-      try {
-        const result = await signInWithPopup(auth, provider);
-        const user = result.user;
-        const uid = user.uid;
-        const nickname = user.displayName || "匿名";
+    message.textContent = `登録が完了しました！ようこそ、${nickname}さん。`;
+    message.style.color = "green";
 
-        await setDoc(doc(db, "users", uid), {
-          nickname: nickname,
-          createdAt: new Date().toISOString()
-        }, { merge: true });
+    // 遷移！
+    setTimeout(() => {
+      location.href = "/dashboard.html";
+    }, 1000);
+  } catch (error) {
+    message.textContent = "エラー: " + error.message;
+    message.style.color = "crimson";
+  }
+});
 
-        message.textContent = `ようこそ、${nickname}さん。登録が完了しました！`;
-        message.style.color = "green";
-      } catch (error) {
-        message.textContent = "エラー: " + error.message;
-        message.style.color = "crimson";
-      }
-    });
+// Googleで登録
+const provider = new GoogleAuthProvider();
+document.getElementById("google-signin").addEventListener("click", async () => {
+  const message = document.getElementById("message");
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    const uid = user.uid;
+    const nickname = user.displayName || "匿名";
+
+    await setDoc(doc(db, "users", uid), {
+      nickname: nickname,
+      createdAt: new Date().toISOString()
+    }, { merge: true });
+
+    message.textContent = `ようこそ、${nickname}さん。登録が完了しました！`;
+    message.style.color = "green";
+
+    // 遷移！
+    setTimeout(() => {
+      location.href = "/dashboard.html";
+    }, 1000);
+  } catch (error) {
+    message.textContent = "エラー: " + error.message;
+    message.style.color = "crimson";
+  }
+});
+
   </script>
 </body>
 </html>
