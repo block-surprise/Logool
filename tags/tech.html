@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#テック の記事一覧 - ブローグ</title>
+  <meta name="description" content="タグ「#テック」が付いた記事の一覧ページです。" />
+  <meta property="og:title" content="#テック の記事一覧 - ブローグ" />
+  <meta property="og:description" content="タグ「#テック」が付いた記事の一覧ページです。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://blogue.ad-hub.f5.si/tags/tech.html" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* スタイルは ai.html と同じでOK！ */
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: #f9f9f9;
+      color: #333;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    a:hover {
+      color: #3498db;
+      text-decoration: underline;
+    }
+    header {
+      background: #2c3e50;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .site-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: white;
+      text-decoration: none;
+    }
+    nav a {
+      color: white;
+      margin-left: 1rem;
+      text-decoration: none;
+    }
+    main {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .breadcrumbs {
+      font-size: 0.85rem;
+      color: #777;
+      margin-bottom: 1rem;
+    }
+    .breadcrumbs a {
+      color: #3498db;
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .post-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .post-item {
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .post-item h2 {
+      margin: 0.5rem 0;
+      font-size: 1.2rem;
+    }
+    .meta {
+      font-size: 0.8rem;
+      color: #777;
+    }
+    .tags {
+      margin-top: 0.5rem;
+    }
+    .tag {
+      display: inline-block;
+      background: #e0f0ff;
+      color: #007acc;
+      padding: 0.2rem 0.5rem;
+      margin-right: 0.3rem;
+      font-size: 0.75rem;
+      border-radius: 4px;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #aaa;
+      margin: 4rem 0 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="../index.html" class="site-title">ブローグ</a>
+    <nav>
+      <a href="../index.html">ホーム</a>
+      <a href="../tags.html">タグ</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="breadcrumbs">
+      <a href="../index.html">ホーム</a> ＞ <a href="../tags.html">タグ</a> ＞ #テック
+    </div>
+
+    <h1>#テック の記事一覧</h1>
+
+    <section class="post-list" id="post-list">
+      <p>読み込み中...</p>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 ブローグ
+  </footer>
+
+  <script>
+    const formatDate = (iso) => {
+      const d = new Date(iso);
+      return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
+    };
+
+    fetch('/data/posts.json')
+      .then(res => res.json())
+      .then(posts => {
+        const container = document.getElementById('post-list');
+        container.innerHTML = '';
+
+        const filtered = posts.filter(post => post.tags.includes('テック'));
+
+        if (filtered.length === 0) {
+          container.innerHTML = '<p>このタグの記事はまだありません。</p>';
+          return;
+        }
+
+        filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        filtered.forEach(post => {
+          const article = document.createElement('article');
+          article.className = 'post-item';
+          article.innerHTML = `
+            <h2><a href="${post.url}">${post.title}</a></h2>
+            <div class="meta">${formatDate(post.date)} ｜ ${post.tags.join('、')}</div>
+            <div class="tags">
+              ${post.tags.map(tag => `<a href="${tag.toLowerCase()}.html" class="tag">#${tag}</a>`).join('')}
+            </div>
+            <p>${post.description}</p>
+          `;
+          container.appendChild(article);
+        });
+      })
+      .catch(err => {
+        console.error('記事の読み込みに失敗しました:', err);
+        document.getElementById('post-list').innerHTML = '<p>読み込みに失敗しました。</p>';
+      });
+  </script>
+</body>
+</html>
