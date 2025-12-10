@@ -85,101 +85,111 @@
   </div>
 
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-    import {
-      getAuth,
-      onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-    import {
-      getFirestore,
-      doc,
-      getDoc,
-      collection,
-      addDoc,
-      serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  import {
+    getAuth,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+  import {
+    getFirestore,
+    doc,
+    getDoc,
+    collection,
+    addDoc,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDZwl7MJrNJD2qU7bkATpZ2DVt0cjLb07s",
-      authDomain: "blogue-9c04d.firebaseapp.com",
-      projectId: "blogue-9c04d",
-      storageBucket: "blogue-9c04d.firebasestorage.app",
-      messagingSenderId: "330012087470",
-      appId: "1:330012087470:web:afe058423a9bcf98bf493f"
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyDZwl7MJrNJD2qU7bkATpZ2DVt0cjLb07s",
+    authDomain: "blogue-9c04d.firebaseapp.com",
+    projectId: "blogue-9c04d",
+    storageBucket: "blogue-9c04d.firebasestorage.app",
+    messagingSenderId: "330012087470",
+    appId: "1:330012087470:web:afe058423a9bcf98bf493f"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
 
-    let currentUser = null;
-    let nickname = "匿名";
+  let currentUser = null;
+  let nickname = "匿名";
 
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        currentUser = user;
-        const userDoc = await getDoc(doc(db, "users", user.uid));
-        if (userDoc.exists()) {
-          nickname = userDoc.data().nickname || "匿名";
-        }
-      } else {
-        location.href = "/login.html";
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      currentUser = user;
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if (userDoc.exists()) {
+        nickname = userDoc.data().nickname || "匿名";
       }
-    });
+    } else {
+      location.href = "/login.html";
+    }
+  });
 
-    // 文字数カウント
-    const bodyInput = document.querySelector('textarea[name="body"]');
-    const charCount = document.getElementById("char-count");
+  // 文字数カウント
+  const bodyInput = document.querySelector('textarea[name="body"]');
+  const charCount = document.getElementById("char-count");
 
-    bodyInput.addEventListener("input", () => {
-      const length = bodyInput.value.length;
-      charCount.textContent = `${length}文字`;
-      if (length > 3000) {
-        charCount.style.color = "crimson";
-        charCount.textContent += "（上限3000文字を超えています）";
-      } else {
-        charCount.style.color = "#666";
-      }
-    });
+  bodyInput.addEventListener("input", () => {
+    const length = bodyInput.value.length;
+    charCount.textContent = `${length}文字`;
+    if (length > 3000) {
+      charCount.style.color = "crimson";
+      charCount.textContent += "（上限3000文字を超えています）";
+    } else {
+      charCount.style.color = "#666";
+    }
+  });
 
-    // 投稿処理
-    document.getElementById("post-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const title = e.target.title.value.trim();
-      const body = e.target.body.value.trim();
-      const tags = e.target.tags.value.split(",").map(tag => tag.trim()).filter(tag => tag);
-      const related = e.target.related.value.split(",").map(url => url.trim()).filter(url => url);
-      const message = document.getElementById("message");
+  // 投稿処理
+  document.getElementById("post-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const title = e.target.title.value.trim();
+    const body = e.target.body.value.trim();
+    const tags = e.target.tags.value.split(",").map(tag => tag.trim()).filter(tag => tag);
+    const related = e.target.related.value.split(",").map(url => url.trim()).filter(url => url);
+    const message = document.getElementById("message");
 
-      if (!currentUser) return;
+    if (!currentUser) return;
 
-      if (body.length > 3000) {
-        message.textContent = "本文が長すぎます（3000文字以内にしてください）";
-        message.style.color = "crimson";
-        return;
-      }
+    if (body.length > 3000) {
+      message.textContent = "本文が長すぎます（3000文字以内にしてください）";
+      message.style.color = "crimson";
+      return;
+    }
 
-      try {
-        await addDoc(collection(db, "posts_pending"), {
-          title,
-          body,
-          tags,
-          related,
-          author: nickname,
-          uid: currentUser.uid,
-          date: serverTimestamp(),
-          approved: false
-        });
-        message.textContent = "投稿が送信されました！確認後に公開されます。";
-        message.style.color = "green";
-        e.target.reset();
-        charCount.textContent = "0文字";
-        charCount.style.color = "#666";
-      } catch (error) {
-        message.textContent = "エラー: " + error.message;
-        message.style.color = "crimson";
-      }
-    });
+    try {
+      await addDoc(collection(db, "posts_pending"), {
+        title,
+        body,
+        tags,
+        related,
+        author: nickname,
+        uid: currentUser.uid,
+        date: serverTimestamp(),
+        approved: false
+      });
+
+      message.textContent = "投稿が送信されました！確認後に公開されます。";
+      message.style.color = "green";
+      e.target.reset();
+      charCount.textContent = "0文字";
+      charCount.style.color = "#666";
+
+      // ホームへリダイレクト（1.5秒後）
+      setTimeout(() => {
+        location.href = "/";
+      }, 1500);
+
+    } catch (error) {
+      message.textContent = "エラー: " + error.message;
+      message.style.color = "crimson";
+    }
+  });
+</script>
+
   </script>
 </body>
 </html>
