@@ -4,15 +4,23 @@
     "description": "無料と有料の違いとは？",
     "url": "/posts/ai-paid-vs-free",
     "thumbnail": "https://blogue.ad-hub.f5.si/images/plans.jpg",
-    "tags": ["日常", "AI"],
+    "tags": ["AI", "ツール","プラン比較"],
     "date": "2025-12-10"
   },
+  {
+    "title": "無料で使える！AIツール10選とその活用術",
+    "description": "AIツールの選び方",
+    "url": "/posts/ai-tools",
+    "thumbnail": "https://blogue.ad-hub.f5.si/images/ai-tools.jpg",
+    "tags": ["日常", "AI","生産性"],
+    "date": "2025-12-09"
+  }
   {
     "title": "AIと暮らす日々：生活が変わった5つの瞬間",
     "description": "朝のルーティンが変わった",
     "url": "/posts/ai-life",
     "thumbnail": "https://blogue.ad-hub.f5.si/images/ai-life.jpg",
-    "tags": ["日常", "AI"],
+    "tags": ["日常", "AI","テック"],
     "date": "2025-12-09"
   }
 ]
