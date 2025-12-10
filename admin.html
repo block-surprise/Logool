@@ -61,6 +61,13 @@
     .approve-btn:hover {
       background: #005fa3;
     }
+    .detail-btn {
+      background: #ccc;
+      color: #333;
+    }
+    .detail-btn:hover {
+      background: #bbb;
+    }
   </style>
 </head>
 <body>
@@ -106,7 +113,7 @@
         return;
       }
 
-      const adminUID = "oDiHeuA7NfZQAknToDvQalaIDai1";
+      const adminUID = "oDiHeuA7NfZQAknToDvQalaIDai1"; // ← ここは祐斗さんのUIDに置き換えてね
       if (user.uid !== adminUID) {
         postsContainer.innerHTML = "アクセス権がありません。";
         return;
@@ -127,6 +134,7 @@
           <div class="post-meta">投稿者: ${data.author || "匿名"} / タグ: ${data.tags?.join(", ") || "なし"}</div>
           <div class="post-body">${data.body.slice(0, 200)}...</div>
           <button class="approve-btn">承認する</button>
+          <button class="detail-btn">詳細を見る</button>
         `;
 
         div.querySelector(".approve-btn").addEventListener("click", async () => {
@@ -138,6 +146,10 @@
           await setDoc(doc(db, "posts", docSnap.id), approvedPost);
           await deleteDoc(doc(db, "posts_pending", docSnap.id));
           div.remove();
+        });
+
+        div.querySelector(".detail-btn").addEventListener("click", () => {
+          location.href = `/post.html?id=${docSnap.id}`;
         });
 
         postsContainer.appendChild(div);
