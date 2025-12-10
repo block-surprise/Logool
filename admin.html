@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>投稿管理 - ブローグ</title>
+  <meta name="description" content="投稿を承認・管理するページです。" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      padding: 2rem;
+    }
+    .admin-container {
+      max-width: 800px;
+      margin: 3rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .post {
+      border-top: 1px solid #eee;
+      padding: 1rem 0;
+    }
+    .post:first-child {
+      border-top: none;
+    }
+    .post-title {
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    .post-meta {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 0.5rem;
+    }
+    .post-body {
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+      white-space: pre-wrap;
+    }
+    button {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.9rem;
+      margin-right: 0.5rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .approve-btn {
+      background: #007acc;
+      color: white;
+    }
+    .approve-btn:hover {
+      background: #005fa3;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <h1>投稿の承認</h1>
+    <div id="posts"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      getDocs,
+      doc,
+      setDoc,
+      deleteDoc,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDZwl7MJrNJD2qU7bkATpZ2DVt0cjLb07s",
+      authDomain: "blogue-9c04d.firebaseapp.com",
+      projectId: "blogue-9c04d",
+      storageBucket: "blogue-9c04d.firebasestorage.app",
+      messagingSenderId: "330012087470",
+      appId: "1:330012087470:web:afe058423a9bcf98bf493f"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const postsContainer = document.getElementById("posts");
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        location.href = "/login.html";
+        return;
+      }
+
+      // ★ここで管理者チェック（必要ならuidで制限）
+      const adminUID = "祐斗さんのUIDをここに"; // ←あとで差し替えよう
+      if (user.uid !== adminUID) {
+        postsContainer.innerHTML = "アクセス権がありません。";
+        return;
+      }
+
+      const snapshot = await getDocs(collection(db, "posts_pending"));
+      if (snapshot.empty) {
+        postsContainer.innerHTML = "承認待ちの投稿はありません。";
+        return;
+      }
+
+      snapshot.forEach(docSnap => {
+        const data = docSnap.data();
+        const div = document.createElement("div");
+        div.className = "post";
+        div.innerHTML = `
+          <div class="post-title">${data.title}</div>
+          <div class="post-meta">投稿者: ${data.author || "匿名"} / タグ: ${data.tags?.join(", ") || "なし"}</div>
+          <div class="post-body">${data.body.slice(0, 200)}...</div>
+          <button class="approve-btn">承認する</button>
+        `;
+
+        div.querySelector(".approve-btn").addEventListener("click", async () => {
+          const approvedPost = {
+            ...data,
+            approved: true,
+            date: data.date || serverTimestamp()
+          };
+          await setDoc(doc(db, "posts", docSnap.id), approvedPost);
+          await deleteDoc(doc(db, "posts_pending", docSnap.id));
+          div.remove();
+        });
+
+        postsContainer.appendChild(div);
+      });
+    });
+  </script>
+</body>
+</html>
