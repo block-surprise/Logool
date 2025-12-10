@@ -36,6 +36,10 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
     import {
+      getAuth,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+    import {
       getFirestore,
       doc,
       getDoc
@@ -51,27 +55,44 @@
     };
 
     const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
     const db = getFirestore(app);
 
     const params = new URLSearchParams(location.search);
     const id = params.get("id");
 
-    const postRef = doc(db, "posts", id);
-    const pendingRef = doc(db, "posts_pending", id);
-
-    let postSnap = await getDoc(postRef);
-    if (!postSnap.exists()) {
-      postSnap = await getDoc(pendingRef);
+    if (!id) {
+      document.getElementById("title").textContent = "記事IDが指定されていません。";
+      throw new Error("No ID in URL");
     }
 
-    if (postSnap.exists()) {
-      const data = postSnap.data();
-      document.getElementById("title").textContent = data.title;
-      document.getElementById("meta").textContent = `投稿者: ${data.author || "匿名"} / タグ: ${data.tags?.join(", ") || "なし"}`;
-      document.getElementById("body").innerHTML = data.body;
-    } else {
-      document.getElementById("title").textContent = "記事が見つかりませんでした。";
-    }
+    onAuthStateChanged(auth, async (user) => {
+      try {
+        const postRef = doc(db, "posts", id);
+        const pendingRef = doc(db, "posts_pending", id);
+
+        let postSnap = await getDoc(postRef);
+        if (!postSnap.exists()) {
+          if (!user) {
+            location.href = "/login.html";
+            return;
+          }
+          postSnap = await getDoc(pendingRef);
+        }
+
+        if (postSnap.exists()) {
+          const data = postSnap.data();
+          document.getElementById("title").textContent = data.title;
+          document.getElementById("meta").textContent = `投稿者: ${data.author || "匿名"} / タグ: ${data.tags?.join(", ") || "なし"}`;
+          document.getElementById("body").innerHTML = data.body;
+        } else {
+          document.getElementById("title").textContent = "記事が見つかりませんでした。";
+        }
+      } catch (error) {
+        console.error("読み込みエラー:", error);
+        document.getElementById("title").textContent = "記事の読み込み中にエラーが発生しました。";
+      }
+    });
   </script>
 </body>
 </html>
