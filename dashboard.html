@@ -13,22 +13,41 @@
       padding: 2rem;
     }
     .dashboard {
-      max-width: 600px;
+      max-width: 700px;
       margin: 3rem auto;
       background: white;
       padding: 2rem;
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      text-align: center;
     }
     h1 {
       font-size: 1.5rem;
       margin-bottom: 1rem;
+      text-align: center;
+    }
+    h2 {
+      font-size: 1.2rem;
+      margin-top: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    ul {
+      list-style: none;
+      padding-left: 1rem;
+    }
+    li {
+      margin-bottom: 0.5rem;
+    }
+    a {
+      color: #007acc;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
     }
     button {
       padding: 0.6rem 1rem;
       font-size: 1rem;
-      margin: 0.5rem;
+      margin: 0.5rem 0.5rem 1rem 0;
       border: none;
       border-radius: 4px;
       cursor: pointer;
@@ -48,103 +67,112 @@
     <h1 id="welcome">ようこそ！</h1>
     <button class="post-btn" onclick="location.href='/submit.html'">新しい記事を投稿</button>
     <button class="logout-btn" id="logout">ログアウト</button>
+
+    <h2>⏳ 審査中の記事</h2>
+    <ul id="pending-posts">
+      <li>読み込み中...</li>
+    </ul>
+
+    <h2>✅ 公開中の記事</h2>
+    <ul id="approved-posts">
+      <li>読み込み中...</li>
+    </ul>
   </div>
-  
-<hr style="margin: 2rem 0;" />
-
-<h2 style="font-size: 1.2rem; text-align: left;">⏳ 審査中の記事</h2>
-<ul id="pending-posts" style="text-align: left; font-size: 0.95rem; padding-left: 1rem;"></ul>
-
-<h2 style="font-size: 1.2rem; text-align: left; margin-top: 2rem;">✅ 公開中の記事</h2>
-<ul id="approved-posts" style="text-align: left; font-size: 0.95rem; padding-left: 1rem;"></ul>
 
   <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-  import {
-    getAuth,
-    onAuthStateChanged,
-    signOut
-  } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-  import {
-    getFirestore,
-    doc,
-    getDoc,
-    collection,
-    query,
-    where,
-    getDocs
-  } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      collection,
+      query,
+      where,
+      getDocs
+    } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyDZwl7MJrNJD2qU7bkATpZ2DVt0cjLb07s",
-    authDomain: "blogue-9c04d.firebaseapp.com",
-    projectId: "blogue-9c04d",
-    storageBucket: "blogue-9c04d.firebasestorage.app",
-    messagingSenderId: "330012087470",
-    appId: "1:330012087470:web:afe058423a9bcf98bf493f"
-  };
+    const firebaseConfig = {
+      apiKey: "AIzaSyDZwl7MJrNJD2qU7bkATpZ2DVt0cjLb07s",
+      authDomain: "blogue-9c04d.firebaseapp.com",
+      projectId: "blogue-9c04d",
+      storageBucket: "blogue-9c04d.firebasestorage.app",
+      messagingSenderId: "330012087470",
+      appId: "1:330012087470:web:afe058423a9bcf98bf493f"
+    };
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-  const pendingList = document.getElementById("pending-posts");
-  const approvedList = document.getElementById("approved-posts");
+    const pendingList = document.getElementById("pending-posts");
+    const approvedList = document.getElementById("approved-posts");
 
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      const uid = user.uid;
-      const userDoc = await getDoc(doc(db, "users", uid));
-      const nickname = userDoc.exists() ? userDoc.data().nickname : "匿名";
-      document.getElementById("welcome").textContent = `ようこそ、${nickname}さん`;
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const uid = user.uid;
+        const userDoc = await getDoc(doc(db, "users", uid));
+        const nickname = userDoc.exists() ? userDoc.data().nickname : "匿名";
+        document.getElementById("welcome").textContent = `ようこそ、${nickname}さん`;
 
-      await loadUserPosts(uid);
-    } else {
+        await loadUserPosts(uid);
+      } else {
+        location.href = "/login.html";
+      }
+    });
+
+    document.getElementById("logout").addEventListener("click", async () => {
+      await signOut(auth);
       location.href = "/login.html";
+    });
+
+    async function loadUserPosts(uid) {
+      // 審査中
+      const pendingQuery = query(
+        collection(db, "posts_pending"),
+        where("uid", "==", uid)
+      );
+      const pendingSnap = await getDocs(pendingQuery);
+      pendingList.innerHTML = "";
+      if (pendingSnap.empty) {
+        pendingList.innerHTML = "<li>審査中の記事はありません。</li>";
+      } else {
+        pendingSnap.forEach(doc => {
+          const data = doc.data();
+          const li = document.createElement("li");
+          const link = document.createElement("a");
+          link.href = `/post.html?id=${doc.id}`;
+          link.textContent = `📝 ${data.title}`;
+          li.appendChild(link);
+          pendingList.appendChild(li);
+        });
+      }
+
+      // 公開中
+      const approvedQuery = query(
+        collection(db, "posts"),
+        where("uid", "==", uid)
+      );
+      const approvedSnap = await getDocs(approvedQuery);
+      approvedList.innerHTML = "";
+      if (approvedSnap.empty) {
+        approvedList.innerHTML = "<li>公開中の記事はありません。</li>";
+      } else {
+        approvedSnap.forEach(doc => {
+          const data = doc.data();
+          const li = document.createElement("li");
+          const link = document.createElement("a");
+          link.href = `/post.html?id=${doc.id}`;
+          link.textContent = `📖 ${data.title}`;
+          li.appendChild(link);
+          approvedList.appendChild(li);
+        });
+      }
     }
-  });
-
-  document.getElementById("logout").addEventListener("click", async () => {
-    await signOut(auth);
-    location.href = "/login.html";
-  });
-
-  async function loadUserPosts(uid) {
-    // 審査中の投稿
-    const pendingQuery = query(
-      collection(db, "posts_pending"),
-      where("uid", "==", uid)
-    );
-    const pendingSnap = await getDocs(pendingQuery);
-    if (pendingSnap.empty) {
-      pendingList.innerHTML = "<li>審査中の記事はありません。</li>";
-    } else {
-      pendingSnap.forEach(doc => {
-        const data = doc.data();
-        const li = document.createElement("li");
-        li.textContent = `📝 ${data.title}`;
-        pendingList.appendChild(li);
-      });
-    }
-
-    // 公開中の投稿
-    const approvedQuery = query(
-      collection(db, "posts"),
-      where("uid", "==", uid)
-    );
-    const approvedSnap = await getDocs(approvedQuery);
-    if (approvedSnap.empty) {
-      approvedList.innerHTML = "<li>公開中の記事はありません。</li>";
-    } else {
-      approvedSnap.forEach(doc => {
-        const data = doc.data();
-        const li = document.createElement("li");
-        li.textContent = `📖 ${data.title}`;
-        approvedList.appendChild(li);
-      });
-    }
-  }
-</script>
-
+  </script>
 </body>
 </html>
