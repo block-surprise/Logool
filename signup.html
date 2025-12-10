@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>会員登録 - ブローグ</title>
+  <meta name="description" content="Googleまたはメールアドレスで、ブローグに登録できます。" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      padding: 2rem;
+    }
+    .signup-container {
+      max-width: 400px;
+      margin: 3rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    input {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+    button {
+      width: 100%;
+      padding: 0.6rem;
+      background: #007acc;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #005fa3;
+    }
+    .or {
+      text-align: center;
+      margin: 1.5rem 0;
+      color: #888;
+    }
+    #google-signin {
+      background: #fff;
+      border: 1px solid #ccc;
+      color: #333;
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+    }
+    #google-signin i {
+      margin-right: 0.5rem;
+      color: #db4437;
+    }
+    #google-signin:hover {
+      background: #f0f0f0;
+    }
+    #message {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-container">
+    <h1>会員登録</h1>
+
+    <form id="signup-form">
+      <input type="text" name="nickname" placeholder="ニックネーム" required />
+      <input type="email" name="email" placeholder="メールアドレス" required />
+      <input type="password" name="password" placeholder="パスワード" required />
+      <button type="submit">メールアドレスで登録</button>
+    </form>
+
+    <div class="or">または</div>
+
+    <button id="google-signin">
+      <i class="fab fa-google"></i>Googleアカウントで登録
+    </button>
+
+    <div id="message"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      GoogleAuthProvider,
+      signInWithPopup
+    } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      setDoc
+    } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDZwl7MJrNJD2qU7bkATpZ2DVt0cjLb07s",
+      authDomain: "blogue-9c04d.firebaseapp.com",
+      projectId: "blogue-9c04d",
+      storageBucket: "blogue-9c04d.firebasestorage.app",
+      messagingSenderId: "330012087470",
+      appId: "1:330012087470:web:afe058423a9bcf98bf493f"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // メールアドレスで登録
+    document.getElementById("signup-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const nickname = e.target.nickname.value;
+      const email = e.target.email.value;
+      const password = e.target.password.value;
+      const message = document.getElementById("message");
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const uid = userCredential.user.uid;
+
+        await setDoc(doc(db, "users", uid), {
+          nickname: nickname,
+          createdAt: new Date().toISOString()
+        });
+
+        message.textContent = `登録が完了しました！ようこそ、${nickname}さん。`;
+        message.style.color = "green";
+        e.target.reset();
+      } catch (error) {
+        message.textContent = "エラー: " + error.message;
+        message.style.color = "crimson";
+      }
+    });
+
+    // Googleで登録
+    const provider = new GoogleAuthProvider();
+    document.getElementById("google-signin").addEventListener("click", async () => {
+      const message = document.getElementById("message");
+      try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        const uid = user.uid;
+        const nickname = user.displayName || "匿名";
+
+        await setDoc(doc(db, "users", uid), {
+          nickname: nickname,
+          createdAt: new Date().toISOString()
+        }, { merge: true });
+
+        message.textContent = `ようこそ、${nickname}さん。登録が完了しました！`;
+        message.style.color = "green";
+      } catch (error) {
+        message.textContent = "エラー: " + error.message;
+        message.style.color = "crimson";
+      }
+    });
+  </script>
+</body>
+</html>
