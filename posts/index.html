@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>記事一覧 - ブローグ</title>
+  <meta name="description" content="ブローグの記事一覧ページ。静けさと好奇心をテーマにした記事をまとめています。" />
+  <meta property="og:title" content="記事一覧 - ブローグ" />
+  <meta property="og:description" content="静けさと好奇心をテーマにした記事をまとめています。" />
+  <meta property="og:image" content="https://example.com/og-image.jpg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://example.com/posts/" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* スタイルはホームと共通でOK。必要なら分離しても◎ */
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: #f9f9f9;
+      color: #333;
+    }
+    header {
+      background: #2c3e50;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .site-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    nav a {
+      color: white;
+      margin-left: 1rem;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    main {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+    .post-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .post-item {
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .post-item img {
+      width: 100%;
+      border-radius: 6px;
+      margin-bottom: 0.8rem;
+    }
+    .post-item h2 {
+      margin: 0.5rem 0;
+      font-size: 1.2rem;
+    }
+    .meta {
+      font-size: 0.8rem;
+      color: #777;
+    }
+    .tags {
+      margin-top: 0.5rem;
+    }
+    .tag {
+      display: inline-block;
+      background: #e0f0ff;
+      color: #007acc;
+      padding: 0.2rem 0.5rem;
+      margin-right: 0.3rem;
+      font-size: 0.75rem;
+      border-radius: 4px;
+      text-decoration: none;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #aaa;
+      margin: 4rem 0 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="site-title">ブローグ</div>
+    <nav>
+      <a href="/index.html">ホーム</a>
+      <a href="/posts/">記事一覧</a>
+      <a href="/tags/">タグ</a>
+      <a href="/about">このブログについて</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>記事一覧</h1>
+    <section class="post-list" id="post-list">
+      <!-- JSONから記事を読み込み -->
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 ブローグ
+  </footer>
+
+  <script>
+    fetch('/data/posts.json')
+      .then(response => response.json())
+      .then(posts => {
+        const container = document.getElementById('post-list');
+        posts.forEach(post => {
+          const article = document.createElement('article');
+          article.className = 'post-item';
+          article.innerHTML = `
+            <a href="${post.url}">
+              <img src="${post.thumbnail}" alt="${post.title}" />
+            </a>
+            <h2><a href="${post.url}">${post.title}</a></h2>
+            <div class="meta">${post.date} ｜ ${post.tags.join('、')}</div>
+            <div class="tags">
+              ${post.tags.map(tag => `<a href="/tags/${tag}.html" class="tag">#${tag}</a>`).join('')}
+            </div>
+            <p>${post.description}</p>
+          `;
+          container.appendChild(article);
+        });
+      })
+      .catch(error => {
+        console.error('記事の読み込みに失敗しました:', error);
+      });
+  </script>
+</body>
+</html>
