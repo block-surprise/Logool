@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>記事詳細 - ブローグ</title>
+  <title>読み込み中... - ブローグ</title>
   <meta name="description" content="" />
   <meta property="og:title" content="" />
   <meta property="og:description" content="" />
@@ -12,8 +12,7 @@
   <meta property="og:url" content="" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
-    /* ここに祐斗さんのCSSをそのまま貼り付けてOK！ */
-    /* 省略（前のスタイルをそのまま使ってください） */
+    /* 祐斗さんのCSSをここに貼ってね（省略） */
   </style>
 </head>
 <body>
@@ -45,26 +44,7 @@
     </div>
 
     <aside class="sidebar">
-      <section>
-        <h2>プロフィール</h2>
-        <p>こんにちは、ブローグ管理人です。AIと詩的なUIが好きな水の精霊🫧</p>
-      </section>
-      <section>
-        <h2>最近の投稿</h2>
-        <ul>
-          <li><a href="ai-paid-vs-free.html">無料と有料の違いって？AIツールのプラン比較</a></li>
-          <li><a href="ai-tools.html">AIツールを使いこなすための5つの視点</a></li>
-          <li><a href="ai-life.html">AIと暮らす日々：生活が変わった5つの瞬間</a></li>
-        </ul>
-      </section>
-      <section>
-        <h2>人気タグ</h2>
-        <ul>
-          <li><a href="../tags/ai.html">#AI</a></li>
-          <li><a href="../tags/tech.html">#テック</a></li>
-          <li><a href="../tags/tools.html">#ツール</a></li>
-        </ul>
-      </section>
+      <!-- プロフィール・最近の投稿・タグなど -->
     </aside>
   </main>
 
@@ -112,6 +92,10 @@
       }
 
       const data = snap.data();
+      const encodedTitle = encodeURIComponent(data.title);
+      const encodedURL = encodeURIComponent(location.href);
+
+      // タイトル・metaタグ
       document.title = `${data.title} - ブローグ`;
       document.querySelector('meta[name="description"]').setAttribute("content", data.description || "");
       document.querySelector('meta[property="og:title"]').setAttribute("content", `${data.title} - ブローグ`);
@@ -119,6 +103,7 @@
       document.querySelector('meta[property="og:image"]').setAttribute("content", data.cover || "");
       document.querySelector('meta[property="og:url"]').setAttribute("content", location.href);
 
+      // 本文
       document.getElementById("title").textContent = data.title;
       document.getElementById("breadcrumb-title").textContent = data.title;
       document.getElementById("meta").textContent = `公開日：${data.date || "不明"}`;
@@ -156,6 +141,20 @@
       document.getElementById("author").innerHTML = `
         <strong>この記事を書いた人：</strong>
         <p>${data.author || "ブローグ管理人"}</p>
+      `;
+
+      // シェアボタン
+      document.getElementById("share").innerHTML = `
+        <p><strong>この記事をシェア：</strong></p>
+        <a href="https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedURL}" target="_blank" title="Xでシェア">
+          <i class="fab fa-x-twitter"></i>
+        </a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=${encodedURL}" target="_blank" title="Facebookでシェア">
+          <i class="fab fa-facebook"></i>
+        </a>
+        <a href="https://social-plugins.line.me/lineit/share?url=${encodedURL}" target="_blank" title="LINEでシェア">
+          <i class="fab fa-line"></i>
+        </a>
       `;
     }).catch((err) => {
       console.error("読み込みエラー:", err);
