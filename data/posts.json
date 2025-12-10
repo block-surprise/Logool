@@ -3,7 +3,7 @@
     "title": "無料と有料の違いって？AIツールのプラン比較と選び方",
     "description": "無料と有料の違いとは？",
     "url": "/posts/ai-paid-vs-free",
-    "thumbnail": "images/ai-paid-vs-free.jpg",
+    "thumbnail": "/images/ai-paid-vs-free.jpg",
     "tags": ["日常", "AI"],
     "date": "2025-12-10"
   },
@@ -11,7 +11,7 @@
     "title": "AIと暮らす日々：生活が変わった5つの瞬間",
     "description": "朝のルーティンが変わった",
     "url": "/posts/ai-life",
-    "thumbnail": "images/ai-life.jpg",
+    "thumbnail": "/images/ai-life.jpg",
     "tags": ["日常", "AI"],
     "date": "2025-12-09"
   }
