@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>マイルーム - ブローグ</title>
+  <meta name="description" content="ログイン後のマイルームページです。" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      padding: 2rem;
+    }
+    .dashboard {
+      max-width: 600px;
+      margin: 3rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    button {
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
+      margin: 0.5rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .post-btn {
+      background: #007acc;
+      color: white;
+    }
+    .logout-btn {
+      background: #ccc;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <h1 id="welcome">ようこそ！</h1>
+    <button class="post-btn" onclick="location.href='/submit.html'">新しい記事を投稿</button>
+    <button class="logout-btn" id="logout">ログアウト</button>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc
+    } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDZwl7MJrNJD2qU7bkATpZ2DVt0cjLb07s",
+      authDomain: "blogue-9c04d.firebaseapp.com",
+      projectId: "blogue-9c04d",
+      storageBucket: "blogue-9c04d.firebasestorage.app",
+      messagingSenderId: "330012087470",
+      appId: "1:330012087470:web:afe058423a9bcf98bf493f"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const uid = user.uid;
+        const userDoc = await getDoc(doc(db, "users", uid));
+        const nickname = userDoc.exists() ? userDoc.data().nickname : "匿名";
+        document.getElementById("welcome").textContent = `ようこそ、${nickname}さん`;
+      } else {
+        location.href = "/login.html"; // 未ログインならリダイレクト
+      }
+    });
+
+    document.getElementById("logout").addEventListener("click", async () => {
+      await signOut(auth);
+      location.href = "/login.html";
+    });
+  </script>
+</body>
+</html>
