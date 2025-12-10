@@ -4,26 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ブローグ - 好奇心のログ</title>
-  <meta name="description" content="ブローグは、気になることを気ままに記録するブログです。" />
+  <meta name="description" content="ブローグは、静けさと好奇心を大切に、日々の気づきや創作を記録するブログです。" />
   <meta property="og:title" content="ブローグ - 好奇心のログ" />
-  <meta property="og:description" content="気になることを気ままに記録するブログ。" />
+  <meta property="og:description" content="静けさと好奇心を大切に、日々の気づきや創作を記録するブログです。" />
   <meta property="og:image" content="https://example.com/og-image.jpg" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://example.com/" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
-    :root {
-      --main-color: #2c3e50;
-      --accent-color: #3498db;
-      --bg-color: #f9f9f9;
-    }
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      background: var(--bg-color);
+      background: #f9f9f9;
       color: #333;
     }
     header {
-      background: var(--main-color);
+      background: #2c3e50;
       color: white;
       padding: 1rem 2rem;
       display: flex;
@@ -41,97 +37,41 @@
       text-decoration: none;
       font-weight: 500;
     }
-    .search-box {
-      margin-left: 1rem;
-    }
-    .search-box input {
-      padding: 0.4rem;
-      border-radius: 4px;
-      border: none;
-    }
     main {
-      display: flex;
-      flex-wrap: wrap;
-      max-width: 1200px;
-      margin: 2rem auto;
+      max-width: 800px;
+      margin: 3rem auto;
       padding: 0 1rem;
-      gap: 2rem;
     }
-    .content {
-      flex: 3;
-      min-width: 0;
-    }
-    .sidebar {
-      flex: 1;
-      min-width: 250px;
-    }
-    .breadcrumbs {
-      font-size: 0.85rem;
-      color: #777;
+    h1 {
+      font-size: 2rem;
       margin-bottom: 1rem;
     }
-    .breadcrumbs a {
-      color: var(--accent-color);
-      text-decoration: none;
-    }
-    .post-list {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-    }
-    .post-item {
+    .intro {
       background: white;
-      padding: 1rem;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      margin-bottom: 2rem;
+    }
+    .featured {
+      background: white;
+      padding: 1.5rem;
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
-    .post-item img {
-      width: 100%;
-      border-radius: 6px;
-      margin-bottom: 0.8rem;
-    }
-    .post-item h2 {
-      margin: 0.5rem 0;
-      font-size: 1.2rem;
-    }
-    .meta {
-      font-size: 0.8rem;
-      color: #777;
-    }
-    .tags {
-      margin-top: 0.5rem;
-    }
-    .tag {
-      display: inline-block;
-      background: #e0f0ff;
-      color: #007acc;
-      padding: 0.2rem 0.5rem;
-      margin-right: 0.3rem;
-      font-size: 0.75rem;
-      border-radius: 4px;
-      text-decoration: none;
-    }
-    .sidebar section {
-      background: white;
-      padding: 1rem;
-      margin-bottom: 1.5rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
-    .sidebar h2 {
-      font-size: 1.1rem;
+    .featured h2 {
       margin-top: 0;
     }
-    .sidebar ul {
+    .featured ul {
       list-style: none;
       padding-left: 0;
     }
-    .sidebar li {
-      margin-bottom: 0.5rem;
+    .featured li {
+      margin-bottom: 0.8rem;
     }
-    .sidebar a {
-      color: var(--accent-color);
+    .featured a {
       text-decoration: none;
+      color: #007acc;
     }
     footer {
       text-align: center;
@@ -139,85 +79,40 @@
       color: #aaa;
       margin: 4rem 0 2rem;
     }
-    @media (max-width: 768px) {
-      main {
-        flex-direction: column;
-      }
-    }
   </style>
 </head>
 <body>
   <header>
     <div class="site-title">ブローグ</div>
     <nav>
-      <a href="index.html">ホーム</a>
-      <a href="tags/">タグ</a>
-      <a href="about">このブログについて</a>
-      <span class="search-box">
-        <input type="text" id="headerSearch" placeholder="検索..." />
-      </span>
+      <a href="/index.html">ホーム</a>
+      <a href="/posts/">記事一覧</a>
+      <a href="/tags/">タグ</a>
+      <a href="/about">このブログについて</a>
     </nav>
   </header>
 
   <main>
-    <div class="content">
-      <div class="breadcrumbs">
-        <a href="index.html">ホーム</a>
-      </div>
+    <section class="intro">
+      <h1>ようこそ、ブローグへ</h1>
+      <p>
+        ブローグは、<strong>静けさと好奇心</strong>をテーマにしたブログです。<br />
+        詩的なUI、AIとの対話、日々の気づき、コードの美しさ。<br />
+        そんな“気になること”を、やさしく記録しています。
+      </p>
+    </section>
 
-      <section class="post-list">
-        <article class="post-item">
-          <img src="images/minecraft.jpg" alt="ネザーの風景" />
-          <h2><a href="posts/minecraft.html">ネザーでネザライト探し</a></h2>
-          <div class="meta">2025年12月9日 ｜ マイクラ</div>
-          <div class="tags">
-            <a href="tags/minecraft.html" class="tag">#マイクラ</a>
-            <a href="tags/adventure.html" class="tag">#冒険</a>
-          </div>
-          <p>今日はネザーに行って、ネザライトを探してきた記録。ピグリンに注意！</p>
-        </article>
-      </section>
-    </div>
-
-    <aside class="sidebar">
-      <section>
-        <h2>プロフィール</h2>
-        <p>こんにちは、ブログ主です。マイクラとガジェットが好き。</p>
-      </section>
-      <section>
-        <h2>最近の投稿</h2>
-        <ul>
-          <li><a href="#">Google検索の裏側</a></li>
-          <li><a href="#">マイクラで自動農場を作った話</a></li>
-          <li><a href="#">お気に入りのカフェ紹介</a></li>
-        </ul>
-      </section>
-      <section>
-        <h2>人気タグ</h2>
-        <ul>
-          <li><a href="tags/minecraft.html">#マイクラ</a></li>
-          <li><a href="tags/tech.html">#テック</a></li>
-          <li><a href="tags/life.html">#日常</a></li>
-        </ul>
-      </section>
-    </aside>
+    <section class="featured">
+      <h2>おすすめ記事</h2>
+      <ul>
+        <li><a href="/posts/quiet-routine.html">集中できない日に試したい、静かな作業ルーティン</a></li>
+        <li><a href="/posts/ai-paid-vs-free.html">無料と有料の違いって？AIツールのプラン比較と選び方</a></li>
+      </ul>
+    </section>
   </main>
 
   <footer>
     &copy; 2025 ブローグ
   </footer>
-
-  <script>
-    const headerSearch = document.getElementById("headerSearch");
-    headerSearch.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        const query = headerSearch.value.trim();
-        if (query) {
-          const encoded = encodeURIComponent(query);
-          window.location.href = `search.html?q=${encoded}`;
-        }
-      }
-    });
-  </script>
 </body>
 </html>
