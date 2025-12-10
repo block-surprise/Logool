@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ログイン - ブローグ</title>
+  <meta name="description" content="Googleまたはメールアドレスで、ブローグにログインできます。" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      padding: 2rem;
+    }
+    .login-container {
+      max-width: 400px;
+      margin: 3rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    input {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+    button {
+      width: 100%;
+      padding: 0.6rem;
+      background: #007acc;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #005fa3;
+    }
+    .or {
+      text-align: center;
+      margin: 1.5rem 0;
+      color: #888;
+    }
+    #google-login {
+      background: #fff;
+      border: 1px solid #ccc;
+      color: #333;
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+    }
+    #google-login i {
+      margin-right: 0.5rem;
+      color: #db4437;
+    }
+    #google-login:hover {
+      background: #f0f0f0;
+    }
+    #message {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h1>ログイン</h1>
+
+    <form id="login-form">
+      <input type="email" name="email" placeholder="メールアドレス" required />
+      <input type="password" name="password" placeholder="パスワード" required />
+      <button type="submit">メールアドレスでログイン</button>
+    </form>
+
+    <div class="or">または</div>
+
+    <button id="google-login">
+      <i class="fab fa-google"></i>Googleアカウントでログイン
+    </button>
+
+    <div id="message"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      GoogleAuthProvider,
+      signInWithPopup
+    } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDZwl7MJrNJD2qU7bkATpZ2DVt0cjLb07s",
+      authDomain: "blogue-9c04d.firebaseapp.com",
+      projectId: "blogue-9c04d",
+      storageBucket: "blogue-9c04d.firebasestorage.app",
+      messagingSenderId: "330012087470",
+      appId: "1:330012087470:web:afe058423a9bcf98bf493f"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // メールアドレスでログイン
+    document.getElementById("login-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = e.target.email.value;
+      const password = e.target.password.value;
+      const message = document.getElementById("message");
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        message.textContent = "ログイン成功！";
+        message.style.color = "green";
+        // location.href = "/dashboard.html"; ← 遷移先があればここで指定
+      } catch (error) {
+        message.textContent = "エラー: " + error.message;
+        message.style.color = "crimson";
+      }
+    });
+
+    // Googleでログイン
+    const provider = new GoogleAuthProvider();
+    document.getElementById("google-login").addEventListener("click", async () => {
+      const message = document.getElementById("message");
+      try {
+        await signInWithPopup(auth, provider);
+        message.textContent = "Googleでログインしました！";
+        message.style.color = "green";
+        // location.href = "/dashboard.html";
+      } catch (error) {
+        message.textContent = "エラー: " + error.message;
+        message.style.color = "crimson";
+      }
+    });
+  </script>
+</body>
+</html>
