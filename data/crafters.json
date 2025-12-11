@@ -1,20 +1,29 @@
 [
   {
-    "title": "ネザーでネザライト探し",
-    "description": "今日はネザーに行って、ネザライトを探してきた記録。ピグリンに注意！",
-    "url": "https://crafters-note.example.com/posts/netherite",
-    "thumbnail": "/images/netherite.jpg",
-    "tags": ["マイクラ", "冒険"],
-    "date": "2025-12-09",
+    "title": "サボテンに触れると、すべてが消える",
+    "description": "マイクラにおける“消失”の美学",
+    "url": "https://crafters.blocksurprise.f5.si/cactus-disappear",
+    "thumbnail": "https://crafters.blocksurprise.f5.si/sabo.png",
+    "tags": ["マイクラ"],
+    "date": "2025-12-02",
     "source": "クラフターズノート"
   },
   {
-    "title": "自動農場を作った話",
-    "description": "レッドストーンと観察者ブロックで自動収穫！",
-    "url": "https://crafters-note.example.com/posts/auto-farm",
-    "thumbnail": "/images/auto-farm.jpg",
-    "tags": ["マイクラ", "テック"],
-    "date": "2025-11-28",
+    "title": "サクラの丘に出会うまで",
+    "description": "マイクラの世界に咲く、偶然の詩",
+    "url": "https://crafters.blocksurprise.f5.si/cherry-blossom-biome",
+    "thumbnail": "https://crafters.blocksurprise.f5.si/sakura.png",
+    "tags": ["マイクラ", "冒険"],
+    "date": "2025-12-02",
+    "source": "クラフターズノート"
+  },
+  {
+    "title": "橋を速く作るための5つのコツ",
+    "description": "マイクラで橋を素早く作るためのテクニックを5つ紹介",
+    "url": "https://crafters.blocksurprise.f5.si/hashi-speed-tips",
+    "thumbnail": "https://crafters.blocksurprise.f5.si/hashi-speed.png",
+    "tags": ["マイクラ"],
+    "date": "2025-12-02",
     "source": "クラフターズノート"
   }
 ]
