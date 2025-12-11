@@ -58,11 +58,18 @@
   text-decoration: underline;
 }
 
-    article h2 {
-  font-size: 1.4rem;
-  margin-top: 3rem;
-  border-left: 4px solid #3498db;
-  padding-left: 0.5rem;
+/* article h2 に青い縦線を適用するCSS */
+article h2 {
+  font-size: 1.4rem;
+  margin-top: 3rem;
+  border-left: 4px solid #3498db;
+  padding-left: 0.5rem;
+}
+/* 全てのh2に適用されるはずのCSS */
+h2 {
+  margin: 2.5rem 0 1rem;
+  font-size: 1.4rem;
+  line-height: 1.4;
 }
 
 article h3 {
@@ -165,11 +172,7 @@ article img {
   border-radius: 4px;
 }
 
-h2 {
-  margin: 2.5rem 0 1rem;
-  font-size: 1.4rem;
-  line-height: 1.4;
-}
+
 
 p {
   margin-bottom: 1.2rem;
