@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>沈み込む静けさ。Yogiboで変わった作業と休憩の境界線 - ブローグ</title>
+  <title>Yogiboで変わった作業と休憩の境界線 - ブローグ</title>
   <meta name="description" content="Yogiboを取り入れてから、作業と休憩の境界がふわっと溶けた。静けさと集中を支える“沈む道具”の体験記。" />
-  <meta property="og:title" content="沈み込む静けさ。Yogiboで変わった作業と休憩の境界線 - ブローグ" />
+  <meta property="og:title" content="Yogiboで変わった作業と休憩の境界線 - ブローグ" />
   <meta property="og:description" content="Yogiboを取り入れてから、作業と休憩の境界がふわっと溶けた。静けさと集中を支える“沈む道具”の体験記。" />
   <meta property="og:image" content="https://blogue.ad-hub.f5.si/images/yogibo.jpg" />
   <meta property="og:type" content="article" />
@@ -21,7 +21,7 @@
       "@type": "WebPage",
       "@id": "https://blogue.ad-hub.f5.si/posts/yogibo-review.html"
     },
-    "headline": "沈み込む静けさ。Yogiboで変わった作業と休憩の境界線",
+    "headline": "Yogiboで変わった作業と休憩の境界線",
     "description": "Yogiboを取り入れてから、作業と休憩の境界がふわっと溶けた。静けさと集中を支える“沈む道具”の体験記。",
     "image": "https://blogue.ad-hub.f5.si/images/yogibo.jpg",
     "author": {
@@ -42,23 +42,34 @@
   </script>
 
   <style>
-    .related-box {
-  background: #eef6ff;
-  border-left: 4px solid #3498db;
-  padding: 1rem;
-  margin: 2rem 0;
-  border-radius: 6px;
-  font-size: 0.95rem;
-}
-.related-box a {
-  color: #007acc;
-  text-decoration: none;
-}
-.related-box a:hover {
-  text-decoration: underline;
+/* レイアウト全体の調整 */
+main {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  gap: 2rem;
 }
 
-    article h2 {
+.content {
+  flex: 0 1 720px; /* 最大幅を制限しつつ、中央に寄せる */
+}
+
+.sidebar {
+  flex: 0 1 300px;
+  min-width: 250px;
+}
+
+/* 記事の見た目 */
+article {
+  line-height: 1.9;
+  font-size: 1.05rem;
+  color: #333;
+}
+
+article h2 {
   font-size: 1.4rem;
   margin-top: 3rem;
   border-left: 4px solid #3498db;
@@ -71,88 +82,35 @@ article h3 {
   color: #2c3e50;
 }
 
-article h4 {
-  font-size: 1rem;
-  margin-top: 1.5rem;
-  color: #444;
-}
-body {
-  font-family: 'Segoe UI', sans-serif;
-  margin: 0;
-  background: #f9f9f9;
-  color: #333;
-  line-height: 1.9;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-a:hover {
-  color: #3498db;
-  text-decoration: underline;
-}
-
-header {
-  background: #2c3e50;
-  color: white;
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-}
-.site-title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: white;
-  text-decoration: none;
-}
-nav a {
-  color: white;
-  margin-left: 1rem;
-  text-decoration: none;
-}
-
-/* main要素を中央寄せし、最大幅と余白を調整 */
-main {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  max-width: 1600px !important; /* 最大幅を1600pxに拡大！ */
-  margin: 2rem auto !important; /* 中央寄せを維持 */
-  padding: 0 0.5rem !important; /* 左右の余白（パディング）を0.5remに最小化！ */
-  gap: 2rem !important;
-}
-.content {
-  flex: 3;
-  min-width: 0;
-}
-.sidebar {
-  flex: 1;
-  min-width: 250px;
-}
-
-.breadcrumbs {
-  font-size: 0.85rem;
-  color: #777;
-  margin-bottom: 1rem;
-}
-.breadcrumbs a {
-  color: #3498db;
-}
-
 article img {
   width: 100%;
   border-radius: 6px;
   margin: 1rem 0;
 }
 
-.meta {
-  font-size: 0.85rem;
-  color: #777;
-  margin-bottom: 1rem;
+p {
+  margin-bottom: 1.2rem;
 }
 
+/* サイドバー */
+.sidebar section {
+  background: white;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.sidebar h2 {
+  font-size: 1.1rem;
+  margin-top: 0;
+}
+
+.sidebar a {
+  color: #3498db;
+}
+
+/* タグ・シェア・著者情報 */
 .tags {
   margin: 1rem 0;
 }
@@ -164,33 +122,6 @@ article img {
   margin-right: 0.3rem;
   font-size: 0.75rem;
   border-radius: 4px;
-}
-
-h2 {
-  margin: 2.5rem 0 1rem;
-  font-size: 1.4rem;
-  line-height: 1.4;
-}
-
-p {
-  margin-bottom: 1.2rem;
-}
-
-.toc {
-  background: #f0f0f0;
-  padding: 1rem;
-  border-left: 4px solid #3498db;
-  margin: 2rem 0;
-}
-.toc h2 {
-  font-size: 1rem;
-  margin-top: 0;
-}
-.toc ul {
-  padding-left: 1rem;
-}
-.toc ul li {
-  margin-bottom: 0.5rem;
 }
 
 .share-buttons {
@@ -210,52 +141,14 @@ p {
   border-left: 4px solid #ccc;
 }
 
-.related-posts {
-  margin-top: 3rem;
-}
-.related-posts h3 {
-  margin-bottom: 1rem;
-}
-.related-posts ul {
-  list-style: none;
-  padding-left: 0;
-}
-.related-posts li {
-  margin-bottom: 0.5rem;
-}
-
-.sidebar section {
-  background: white;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-}
-.sidebar h2 {
-  font-size: 1.1rem;
-  margin-top: 0;
-}
-.sidebar ul {
-  list-style: none;
-  padding-left: 0;
-}
-.sidebar li {
-  margin-bottom: 0.5rem;
-}
-.sidebar a {
-  color: #3498db;
-}
-
-footer {
-  text-align: center;
-  font-size: 0.8rem;
-  color: #aaa;
-  margin: 4rem 0 2rem;
-}
-
+/* モバイル対応 */
 @media (max-width: 768px) {
   main {
     flex-direction: column;
+    padding: 0 1rem;
+  }
+  .content, .sidebar {
+    flex: 1 1 100%;
   }
 }
 
