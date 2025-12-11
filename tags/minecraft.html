@@ -132,7 +132,7 @@
     };
 
     Promise.all([
-      fetch('/posts.json').then(res => res.json()),
+      fetch('/data/posts.json').then(res => res.json()),
       fetch('/data/crafters.json').then(res => res.json())
     ])
     .then(([mainPosts, craftersPosts]) => {
