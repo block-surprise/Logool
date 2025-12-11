@@ -58,18 +58,11 @@
   text-decoration: underline;
 }
 
-/* article h2 に青い縦線を適用するCSS */
-article h2 {
-  font-size: 1.4rem;
-  margin-top: 3rem;
-  border-left: 4px solid #3498db;
-  padding-left: 0.5rem;
-}
-/* 全てのh2に適用されるはずのCSS */
-h2 {
-  margin: 2.5rem 0 1rem;
-  font-size: 1.4rem;
-  line-height: 1.4;
+    article h2 {
+  font-size: 1.4rem;
+  margin-top: 3rem;
+  border-left: 4px solid #3498db;
+  padding-left: 0.5rem;
 }
 
 article h3 {
@@ -121,14 +114,13 @@ nav a {
   text-decoration: none;
 }
 
-/* main要素を中央寄せし、最大幅と余白を調整 */
 main {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  max-width: 1400px !important; /* 最大幅を1200pxから1400pxに拡大 */
-  margin: 2rem auto !important; /* 中央寄せを維持 */
-  padding: 0 1rem !important; /* 左右の余白（パディング）を2remから1remに削減 */
-  gap: 2rem !important;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  gap: 2rem;
 }
 .content {
   flex: 3;
@@ -173,7 +165,11 @@ article img {
   border-radius: 4px;
 }
 
-
+h2 {
+  margin: 2.5rem 0 1rem;
+  font-size: 1.4rem;
+  line-height: 1.4;
+}
 
 p {
   margin-bottom: 1.2rem;
