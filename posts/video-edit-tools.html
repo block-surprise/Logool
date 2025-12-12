@@ -251,19 +251,30 @@ footer {
   color: #aaa;
   margin: 4rem 0 2rem;
 }
-.pc-only {
-    display: none;
+.sp-only { 
+    display: none; 
 }
 @media (max-width: 768px) {
   main {
     flex-direction: column;
   }
-      .pc-only {
-        height: auto; 
-        width: 100%;
-    }
 }
-
+@media screen and (max-width: 768px) {
+    .sp-only {
+        /* スマホでのみ表示させる */
+        display: block; 
+        
+        /* スマホ画面幅に合わせてバナーを表示 */
+        width: 100%;       /* 幅を親要素の100%に広げる */
+        text-align: center; /* 中央寄せ */
+    }
+    
+    /* バナーの画像自体もスマホ幅に合わせる */
+    .sp-only img {
+        width: 100%;
+        height: auto; 
+        max-width: 320px; /* 画像が大きくなりすぎないように制限 */
+    }
   </style>
 </head>
 <body>
@@ -275,8 +286,7 @@ footer {
       <a href="https://blogue.ad-hub.f5.si/tags/">タグ</a>
     </nav>
   </header>
-  <div class="pc-only">
-  <a href="//af.moshimo.com/af/c/click?..." rel="nofollow" referrerpolicy="no-referrer-when-downgrade" attributionsrc>
+ <div class="sp-only">  <a href="//af.moshimo.com/af/c/click?..." rel="nofollow" referrerpolicy="no-referrer-when-downgrade" attributionsrc>
     <img src="//image.moshimo.com/af-img/2839/000000089753.png" width="320" height="50" style="border:none;">
   </a>
   <img src="//i.moshimo.com/af/i/impression?..." width="1" height="1" style="border:none;" loading="lazy">
