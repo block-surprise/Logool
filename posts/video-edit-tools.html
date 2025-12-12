@@ -251,13 +251,19 @@ footer {
   color: #aaa;
   margin: 4rem 0 2rem;
 }
-
+.pc-only {
+    display: none;
+}
 @media (max-width: 768px) {
   main {
     flex-direction: column;
   }
 }
-
+@media screen and (min-width: 768px) {
+    .pc-only {
+        display: block; /* または display: inline-block; など */
+    }
+}
   </style>
 </head>
 <body>
@@ -271,6 +277,12 @@ footer {
   </header>
 
 <main>
+  <div class="pc-only">
+  <a href="//af.moshimo.com/af/c/click?..." rel="nofollow" referrerpolicy="no-referrer-when-downgrade" attributionsrc>
+    <img src="//image.moshimo.com/af-img/2839/000000089753.png" width="936" height="120" style="border:none;">
+  </a>
+  <img src="//i.moshimo.com/af/i/impression?..." width="1" height="1" style="border:none;" loading="lazy">
+</div>
   <div class="content">
     <div class="breadcrumbs">
       <a href="https://blogue.ad-hub.f5.si/">ホーム</a> ＞ 切って、つないで、伝える。無料で始める動画編集ツールとその使い方
