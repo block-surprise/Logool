@@ -1,7 +1,15 @@
 [
+    {
+    "title": "はじめてのホームページ作成。初心者でも安心な作り方とおすすめツール",
+    "description": "ホームページの基本構成を紹介",
+    "url": "/posts/homepage-beginner",
+    "thumbnail": "https://blogue.ad-hub.f5.si/images/homepage-beginner.jpg",
+    "tags": ["Web","ツール","テック"],
+    "date": "2025-12-12"
+  },
 {
     "title": "AIと話す英会話。アプリ『Speak』で広がる学びの選択肢",
-    "description": "2. Speakってどんなアプリ？",
+    "description": "Speakってどんなアプリ？",
     "url": "/posts/speak-ai-english",
     "thumbnail": "https://blogue.ad-hub.f5.si/images/ai-talk.jpg",
     "tags": ["AI"],
