@@ -131,7 +131,7 @@
       return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
     };
 
-    fetch('/posts.json')
+    fetch('/data/posts.json')
       .then(res => res.json())
       .then(posts => {
         const filtered = posts.filter(post => post.tags.includes('日常'));
