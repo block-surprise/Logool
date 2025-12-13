@@ -1,10 +1,18 @@
 [
+  {
+    "title": "独自ドメインでメールアドレスを作る方法｜初心者でもできる設定ガイド",
+    "description": "独自ドメインメールのメリットと活用シーンを解説",
+    "url": "/posts/domain-email-guide",
+    "thumbnail": "https://blogue.ad-hub.f5.si/images/domain-email-guide.jpg",
+    "tags": ["メール","ドメイン"],
+    "date": "2025-12-13"
+  },
  {
     "title": "ドメインって何？初心者でもわかる取得・管理・選び方のすべて",
     "description": "ドメイン取得の流れ・おすすめの取得サービス比較を解説",
     "url": "/posts/domain-guide",
     "thumbnail": "https://blogue.ad-hub.f5.si/images/domain-guide.jpg",
-    "tags": ["Web","生産性"],
+    "tags": ["Web","ツール","ドメイン"],
     "date": "2025-12-13"
   },
     {
