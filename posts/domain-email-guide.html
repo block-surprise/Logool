@@ -269,7 +269,60 @@ img {
     flex-direction: column;
   }
 }
+img {
+    max-width: 100% !important; 
+    height: auto !important;
+    /* HTMLの width="300" 属性を強制的に無効化 */
+    width: auto !important; 
+}
 
+/* 2. PC版広告の余白とトラッキング画像除去 (前回の修正を維持) */
+.moshimo-resp-468 {
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 0; 
+    font-size: 0; 
+}
+.moshimo-resp-468 img[width="1"][height="1"] {
+    display: none !important; 
+}
+.sidebar img[width="1"][height="1"] {
+    display: none !important;
+}
+
+/* 3. スマホ表示時の強制レイアウト調整 */
+@media (max-width: 768px) {
+  /* メインエリアのパディングをゼロにして、画面幅を最大活用 */
+  main {
+    flex-direction: column;
+    padding: 0 0 !important; /* 強制ゼロ！ */
+    /* サイドバーがはみ出すのを防ぐための min-width: 0 をコンテンツにも設定（念のため） */
+    min-width: 0; 
+  }
+  
+  /* サイドバーとセクションにマージンを付けて、コンテンツが画面端に張り付くのを防ぐ */
+  .sidebar section {
+      margin: 0.5rem 0.5rem 1.5rem 0.5rem;
+  }
+  
+  /* サイドバー内の要素全体の幅を強制的に 100% にし、はみ出しを防ぐ */
+  .sidebar,
+  .sidebar a,
+  .sidebar img {
+    max-width: 100% !important;
+    box-sizing: border-box;
+    min-width: 0; /* min-widthの無限拡大を防ぐ */
+  }
+
+  /* pre (コードブロック) と table (表) の幅も再度チェック */
+  article pre,
+  article table {
+      max-width: 100%; 
+      overflow-x: auto; 
+      box-sizing: border-box; 
+      display: block; 
+  }
+}
   </style>
 </head>
 <body>
